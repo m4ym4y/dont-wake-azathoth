@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/hypnotic-2.mp3-66656269618c630712a06530c184cee1.mp3str"
+
+[deps]
+
+source_file="res://assets/sound/hypnotic-2.mp3"
+dest_files=[ "res://.import/hypnotic-2.mp3-66656269618c630712a06530c184cee1.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0
