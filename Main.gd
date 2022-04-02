@@ -11,6 +11,7 @@ var neighbor_note = {
 	lline = "hline",
 }
 const base_note_speed = 120.0
+const base_wait_time = 0.8
 
 const note_size = 16.0
 const note_step = 33.0
@@ -27,6 +28,9 @@ var got_combo = false
 var combo_counter = 0
 var max_health = 100
 var health = 100
+
+var timer = 0
+var pitch_scale = 1.0
 
 # Declare member variables here. Examples:
 # var a = 2
@@ -84,7 +88,17 @@ func set_health(n):
 	health = n
 	$Health.text = str(health) + "%"
 
+func _on_Music_finished():
+	if timer > 1:
+		timer = 0
+		pitch_scale += 0.1
+		$NoteTimer.wait_time = base_wait_time / pitch_scale
+		$Music.pitch_scale = pitch_scale
+	$Music.play()
+
 func _on_NoteTimer_timeout():
+	timer += 1
+
 	advance_notes()
 	increment_combo()
 	set_health(min(health + 1, max_health))
@@ -115,6 +129,7 @@ func advance_notes():
 func _input(event):
 	for line in locations:
 		if event.is_action_pressed(line):
+			$Sounds.get_node(line).pitch_scale = pitch_scale
 			$Sounds.get_node(line).play()
 			var found_note = false
 			var notes = get_tree().get_nodes_in_group(line)

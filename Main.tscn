@@ -6,10 +6,10 @@
 [ext_resource path="res://assets/sound/hypnotic-2.mp3" type="AudioStream" id=4]
 [ext_resource path="res://HitIndicator.tscn" type="PackedScene" id=5]
 [ext_resource path="res://assets/cultist.png" type="Texture" id=6]
-[ext_resource path="res://assets/sound/lnote.wav" type="AudioStream" id=7]
-[ext_resource path="res://assets/sound/jnote.wav" type="AudioStream" id=8]
-[ext_resource path="res://assets/sound/hnote.wav" type="AudioStream" id=9]
-[ext_resource path="res://assets/sound/knote.wav" type="AudioStream" id=10]
+[ext_resource path="res://assets/sound/hline.mp3" type="AudioStream" id=7]
+[ext_resource path="res://assets/sound/jline.mp3" type="AudioStream" id=8]
+[ext_resource path="res://assets/sound/kline.mp3" type="AudioStream" id=9]
+[ext_resource path="res://assets/sound/lline.mp3" type="AudioStream" id=10]
 [ext_resource path="res://assets/fonts/Adventurer.ttf" type="DynamicFontData" id=11]
 [ext_resource path="res://assets/azathoth.png" type="Texture" id=12]
 [ext_resource path="res://assets/sound/miss.wav" type="AudioStream" id=13]
@@ -66,16 +66,16 @@ texture = ExtResource( 6 )
 [node name="Sounds" type="Node" parent="."]
 
 [node name="hline" type="AudioStreamPlayer" parent="Sounds"]
-stream = ExtResource( 9 )
+stream = ExtResource( 7 )
 
 [node name="jline" type="AudioStreamPlayer" parent="Sounds"]
 stream = ExtResource( 8 )
 
 [node name="kline" type="AudioStreamPlayer" parent="Sounds"]
-stream = ExtResource( 10 )
+stream = ExtResource( 9 )
 
 [node name="lline" type="AudioStreamPlayer" parent="Sounds"]
-stream = ExtResource( 7 )
+stream = ExtResource( 10 )
 
 [node name="ComboMeter" type="Label" parent="."]
 margin_left = 503.0
@@ -105,3 +105,4 @@ position = Vector2( 152, 212 )
 texture = ExtResource( 12 )
 
 [connection signal="timeout" from="NoteTimer" to="." method="_on_NoteTimer_timeout"]
+[connection signal="finished" from="Music" to="." method="_on_Music_finished"]
