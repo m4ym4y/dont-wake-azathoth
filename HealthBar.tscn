@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://HealthBar.gd" type="Script" id=1]
+[ext_resource path="res://Heart.tscn" type="PackedScene" id=2]
+
+[node name="HealthBar" type="Node2D"]
+script = ExtResource( 1 )
+heart_scene = ExtResource( 2 )

@@ -2,7 +2,9 @@ extends Node2D
 
 export (PackedScene) var note_scene
 export (PackedScene) var indicator_scene
+export (PackedScene) var powerup_scene
 
+var powerups = [ "clock", "flute", "z" ]
 var locations = [ "hline", "jline", "kline", "lline" ]
 var neighbor_note = {
 	hline = "jline",
@@ -14,7 +16,7 @@ const base_note_speed = 120.0
 const base_wait_time = 0.8
 
 const note_size = 16.0
-const note_step = 33.0
+const note_step = 32.0
 const target_start = 393.0
 const target_end = 434.0
 
@@ -27,8 +29,9 @@ var broke_combo = false
 var got_combo = false
 var combo_counter = 0
 var max_health = 100
-var health = 100
+var health = 10
 
+var global_timer = 0
 var timer = 0
 var pitch_scale = 1.0
 
@@ -42,24 +45,29 @@ func _ready():
 
 	yield(get_tree().create_timer(0.4), "timeout")
 	$NoteTimer.start()
+	set_health(health)
 
 func random_note():
 	return locations[randi() % locations.size()]
 
 func set_new_state():
-	state = states[randi() % states.size()]
-	if state == "single":
-		primary_note = random_note()
-		state_counter = 2 + randi() % 4
-	elif state == "alter":
-		primary_note = random_note()
-		state_counter = 2 + (randi() % 2) * 2
-	elif state == "scale":
-		primary_note = random_note()
-		state_counter = 4 + randi() % 6
-	elif state == "double":
-		primary_note = random_note()
-		state_counter = 1 + randi() % 2
+	if randi() % 10 == 0:
+		state_counter = 1
+		state = "powerup"
+	else:
+		state = states[randi() % states.size()]
+		if state == "single":
+			primary_note = random_note()
+			state_counter = 2 + randi() % 4
+		elif state == "alter":
+			primary_note = random_note()
+			state_counter = 2 + (randi() % 2) * 2
+		elif state == "scale":
+			primary_note = random_note()
+			state_counter = 4 + randi() % 6
+		elif state == "double":
+			primary_note = random_note()
+			state_counter = 1 + randi() % 2
 
 func next_notes():
 	if state_counter == 0:
@@ -74,6 +82,9 @@ func next_notes():
 		return [ primary_note ]
 	elif state == "double":
 		return [ primary_note, neighbor_note[primary_note] ]
+	elif state == "powerup":
+		spawn_powerup()
+		return []
 
 func increment_combo():
 	if broke_combo:
@@ -86,22 +97,44 @@ func increment_combo():
 
 func set_health(n):
 	health = n
-	$Health.text = str(health) + "%"
+	$HealthBar.set_health(n)
+
+func apply_pitch_scale ():
+	$NoteTimer.wait_time = base_wait_time / pitch_scale
+	$Music.pitch_scale = pitch_scale
 
 func _on_Music_finished():
-	if timer > 1:
+	if timer > 50:
 		timer = 0
 		pitch_scale += 0.1
-		$NoteTimer.wait_time = base_wait_time / pitch_scale
-		$Music.pitch_scale = pitch_scale
+		apply_pitch_scale()
 	$Music.play()
 
+func spawn_powerup():
+	var type = powerups[randi() % powerups.size()]
+	var line = random_note()
+	var powerup = powerup_scene.instance()
+
+	powerup.add_to_group("notes")
+	powerup.add_to_group("attack")
+	powerup.position = get_node(line).position
+	powerup.init(type)
+	add_child(powerup)
+
 func _on_NoteTimer_timeout():
+	global_timer += 1
 	timer += 1
+
+	if global_timer % 2 == 1:
+		$Cultist.play("on")
+		$Azathoth.play("on")
+	else:
+		$Cultist.play("off")
+		$Azathoth.play("off")
 
 	advance_notes()
 	increment_combo()
-	set_health(min(health + 1, max_health))
+	# set_health(min(health + 1, max_health))
 
 	var lines = next_notes()
 	for line in lines:
@@ -113,7 +146,7 @@ func _on_NoteTimer_timeout():
 		add_child(note)
 
 func miss_note():
-	set_health(health - 10)
+	set_health(health - 1)
 	$MissSound.play()
 	pass
 
@@ -121,27 +154,70 @@ func advance_notes():
 	var notes = get_tree().get_nodes_in_group("notes")
 	for note in notes:
 		note.position.y = note.position.y + note_step
-		if note.position.y > target_end and note.get_node("AnimatedSprite").animation != "break":
+		if note.is_in_group("attack"):
+			continue
+		elif note.position.y > target_end and note.get_node("AnimatedSprite").animation != "break":
 			note.get_node("AnimatedSprite").play("break")
 			broke_combo = true
 			miss_note()
 
+func in_target(entity, tolerance = 0):
+	if entity.position.y > target_start - tolerance and entity.position.y < target_end:
+		return true
+
+func clear_notes():
+	var notes = get_tree().get_nodes_in_group("notes")
+	for note in notes:
+		if note.is_in_group("attack"):
+			continue
+		else:
+			note.get_node("AnimatedSprite").play("break")
+
 func _input(event):
+	if event.is_action_pressed("attack"):
+		$Attack.play("attack")
+
+		var attackables = get_tree().get_nodes_in_group("attack")
+		for attackable in attackables:
+			# TODO: play sounds
+			if in_target(attackable, note_step) and attackable.animation != "break":
+				attackable.play("break")
+				if attackable.type == "z":
+					set_health(health + 1)
+				elif attackable.type == "clock":
+					var old_pitch_scale = pitch_scale
+					pitch_scale = 0.5
+					apply_pitch_scale()
+					yield(get_tree().create_timer(10), "timeout")
+					pitch_scale = old_pitch_scale
+					apply_pitch_scale()
+				elif attackable.type == "flute":
+					clear_notes()
+
 	for line in locations:
 		if event.is_action_pressed(line):
 			$Sounds.get_node(line).pitch_scale = pitch_scale
 			$Sounds.get_node(line).play()
 			var found_note = false
+			var near_hit = null
 			var notes = get_tree().get_nodes_in_group(line)
 
 			for note in notes:
-				if note.position.y > target_start and note.position.y < target_end:
+				if note.get_node("AnimatedSprite").animation == "break":
+					continue
+				elif in_target(note):
 					note.get_node("AnimatedSprite").play("break")
+					note.get_node("CPUParticles2D").emitting = true
 					found_note = true
+				elif in_target(note, note_step):
+					near_hit = note
 
 			if found_note:
 				display_indicator("perfect", line)
 				got_combo = true
+			elif near_hit != null:
+				near_hit.get_node("AnimatedSprite").play("break")
+				display_indicator("hit", line)
 			else:
 				broke_combo = true
 				display_indicator("miss", line)

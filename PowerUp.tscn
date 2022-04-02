@@ -1,0 +1,34 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://assets/z-powerup.png" type="Texture" id=1]
+[ext_resource path="res://assets/clock-powerup.png" type="Texture" id=2]
+[ext_resource path="res://assets/flute-powerup.png" type="Texture" id=3]
+[ext_resource path="res://PowerUp.gd" type="Script" id=4]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 1 ) ],
+"loop": true,
+"name": "z",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 2 ) ],
+"loop": true,
+"name": "clock",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 3 ) ],
+"loop": true,
+"name": "flute",
+"speed": 5.0
+}, {
+"frames": [ null ],
+"loop": true,
+"name": "break",
+"speed": 5.0
+} ]
+
+[node name="PowerUp" type="AnimatedSprite"]
+frames = SubResource( 1 )
+animation = "break"
+script = ExtResource( 4 )
