@@ -53,3 +53,7 @@ up, causing reality itself to end.
   - A flute will cause the wakefullness meter to go down
   - A tome will cause your bar to expand, allowing you to hit notes more easily
   - A sun will extinguish all the enemies onscreen
+
+# Attributions
+
+- Font: [Adventure, by Brian J Smith](http://www.pentacom.jp/pentacom/bitfontmaker2/gallery/?id=195)
