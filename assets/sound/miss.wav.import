@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/miss.wav-d27ff0bf4025d3f712b2d68516c1313b.sample"
+
+[deps]
+
+source_file="res://assets/sound/miss.wav"
+dest_files=[ "res://.import/miss.wav-d27ff0bf4025d3f712b2d68516c1313b.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

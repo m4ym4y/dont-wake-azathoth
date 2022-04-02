@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://assets/gamehud.png" type="Texture" id=1]
 [ext_resource path="res://MusicNote.tscn" type="PackedScene" id=2]
@@ -11,8 +11,13 @@
 [ext_resource path="res://assets/sound/hnote.wav" type="AudioStream" id=9]
 [ext_resource path="res://assets/sound/knote.wav" type="AudioStream" id=10]
 [ext_resource path="res://assets/fonts/Adventurer.ttf" type="DynamicFontData" id=11]
+[ext_resource path="res://assets/azathoth.png" type="Texture" id=12]
+[ext_resource path="res://assets/sound/miss.wav" type="AudioStream" id=13]
 
 [sub_resource type="DynamicFont" id=1]
+font_data = ExtResource( 11 )
+
+[sub_resource type="DynamicFont" id=2]
 font_data = ExtResource( 11 )
 
 [node name="Main" type="Node2D"]
@@ -47,6 +52,9 @@ position = Vector2( 472, -16 )
 [node name="NoteTimer" type="Timer" parent="."]
 wait_time = 0.8
 
+[node name="MissSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 13 )
+
 [node name="Music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 4 )
 autoplay = true
@@ -80,5 +88,20 @@ valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Health" type="Label" parent="."]
+margin_left = 271.0
+margin_top = 236.0
+margin_right = 311.0
+margin_bottom = 252.0
+custom_fonts/font = SubResource( 2 )
+text = "100%"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Azathoth" type="Sprite" parent="."]
+position = Vector2( 152, 212 )
+texture = ExtResource( 12 )
 
 [connection signal="timeout" from="NoteTimer" to="." method="_on_NoteTimer_timeout"]

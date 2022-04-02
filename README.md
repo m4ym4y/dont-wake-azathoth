@@ -57,3 +57,12 @@ up, causing reality itself to end.
 # Attributions
 
 - Font: [Adventure, by Brian J Smith](http://www.pentacom.jp/pentacom/bitfontmaker2/gallery/?id=195)
+
+## TODO List after first day of working
+
+- Should have powerups and enemies to make it more interesting. Maybe the enemies could move around the track instead of requiring a special attack action. Or they could move around and still require the attack action.
+- Instead of having a health number we should have something like a hearts system. These could be Z's that go from green to red so that it's less distracting than looking at a number.
+- More things should be animated, like the cultists fingers, azathoth, etc. If it all goes in rhythm then it'd have a cute effect.
+- There should be a main menu, death screen, high score, etc.
+- Draw the title screen art
+- Export sounds as mp3 so they don't take up huge space
