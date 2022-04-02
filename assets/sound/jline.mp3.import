@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/jline.mp3-4031cbcd11ad0aca0f4d3a67426f2cdd.mp3str"
+
+[deps]
+
+source_file="res://assets/sound/jline.mp3"
+dest_files=[ "res://.import/jline.mp3-4031cbcd11ad0aca0f4d3a67426f2cdd.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

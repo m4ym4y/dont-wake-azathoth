@@ -11,5 +11,5 @@ dest_files=[ "res://.import/hypnotic-2.mp3-66656269618c630712a06530c184cee1.mp3s
 
 [params]
 
-loop=true
+loop=false
 loop_offset=0

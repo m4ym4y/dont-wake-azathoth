@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/kline.mp3-c5d0bca4efded4b5f796441267eb722d.mp3str"
+
+[deps]
+
+source_file="res://assets/sound/kline.mp3"
+dest_files=[ "res://.import/kline.mp3-c5d0bca4efded4b5f796441267eb722d.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0
