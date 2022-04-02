@@ -1,0 +1,58 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://assets/glyph-1.png" type="Texture" id=1]
+[ext_resource path="res://MusicNote.gd" type="Script" id=2]
+[ext_resource path="res://assets/glyph-break-1.png" type="Texture" id=3]
+[ext_resource path="res://assets/glyph-break-2.png" type="Texture" id=4]
+[ext_resource path="res://assets/glyph-break-3.png" type="Texture" id=5]
+[ext_resource path="res://assets/glyph-3.png" type="Texture" id=6]
+[ext_resource path="res://assets/glyph-4.png" type="Texture" id=7]
+[ext_resource path="res://assets/glyph-2.png" type="Texture" id=8]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 8 ) ],
+"loop": true,
+"name": "jline",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 6 ) ],
+"loop": true,
+"name": "lline",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 1 ) ],
+"loop": true,
+"name": "hline",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 7 ) ],
+"loop": true,
+"name": "kline",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 3 ), ExtResource( 4 ), ExtResource( 5 ), null ],
+"loop": false,
+"name": "break",
+"speed": 24.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 16, 16 )
+
+[node name="MusicNote" type="RigidBody2D"]
+z_index = 1
+gravity_scale = 0.0
+script = ExtResource( 2 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+frames = SubResource( 1 )
+animation = "lline"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 2 )
+
+[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
+rect = Rect2( -16, -16, 32, 32 )
+
+[connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]

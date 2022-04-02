@@ -1,0 +1,84 @@
+[gd_scene load_steps=13 format=2]
+
+[ext_resource path="res://assets/gamehud.png" type="Texture" id=1]
+[ext_resource path="res://MusicNote.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Main.gd" type="Script" id=3]
+[ext_resource path="res://assets/sound/hypnotic-1.mp3" type="AudioStream" id=4]
+[ext_resource path="res://HitIndicator.tscn" type="PackedScene" id=5]
+[ext_resource path="res://assets/cultist.png" type="Texture" id=6]
+[ext_resource path="res://assets/sound/lnote.wav" type="AudioStream" id=7]
+[ext_resource path="res://assets/sound/jnote.wav" type="AudioStream" id=8]
+[ext_resource path="res://assets/sound/hnote.wav" type="AudioStream" id=9]
+[ext_resource path="res://assets/sound/knote.wav" type="AudioStream" id=10]
+[ext_resource path="res://assets/fonts/Adventurer.ttf" type="DynamicFontData" id=11]
+
+[sub_resource type="DynamicFont" id=1]
+font_data = ExtResource( 11 )
+
+[node name="Main" type="Node2D"]
+script = ExtResource( 3 )
+note_scene = ExtResource( 2 )
+indicator_scene = ExtResource( 5 )
+
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_right = 640.0
+margin_bottom = 480.0
+color = Color( 0, 0, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Gamehud" type="Sprite" parent="."]
+position = Vector2( 320, 240 )
+texture = ExtResource( 1 )
+
+[node name="hline" type="Node2D" parent="."]
+position = Vector2( 364, -16 )
+
+[node name="jline" type="Node2D" parent="."]
+position = Vector2( 400, -16 )
+
+[node name="kline" type="Node2D" parent="."]
+position = Vector2( 436, -16 )
+
+[node name="lline" type="Node2D" parent="."]
+position = Vector2( 472, -16 )
+
+[node name="NoteTimer" type="Timer" parent="."]
+wait_time = 0.8
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 4 )
+autoplay = true
+
+[node name="Cultist" type="Sprite" parent="."]
+position = Vector2( 243, 380 )
+texture = ExtResource( 6 )
+
+[node name="Sounds" type="Node" parent="."]
+
+[node name="hline" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource( 9 )
+
+[node name="jline" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource( 8 )
+
+[node name="kline" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource( 10 )
+
+[node name="lline" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource( 7 )
+
+[node name="ComboMeter" type="Label" parent="."]
+margin_left = 503.0
+margin_top = 406.0
+margin_right = 543.0
+margin_bottom = 422.0
+custom_fonts/font = SubResource( 1 )
+text = "0"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="timeout" from="NoteTimer" to="." method="_on_NoteTimer_timeout"]

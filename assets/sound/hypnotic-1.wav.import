@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/hypnotic-1.wav-3e40c8240d733d0bf9c236d87dcfdc65.sample"
+
+[deps]
+
+source_file="res://assets/sound/hypnotic-1.wav"
+dest_files=[ "res://.import/hypnotic-1.wav-3e40c8240d733d0bf9c236d87dcfdc65.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

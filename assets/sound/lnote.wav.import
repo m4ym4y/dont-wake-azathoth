@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/lnote.wav-dad1eee699641cca4b5f9032cbf38330.sample"
+
+[deps]
+
+source_file="res://assets/sound/lnote.wav"
+dest_files=[ "res://.import/lnote.wav-dad1eee699641cca4b5f9032cbf38330.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0
