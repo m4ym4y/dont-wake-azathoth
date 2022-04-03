@@ -231,6 +231,7 @@ func _input(event):
 						yield(get_tree().create_timer(10), "timeout")
 						pitch_scale = old_pitch_scale
 						apply_pitch_scale()
+						return
 				elif attackable.type == "flute":
 					get_node("Sounds/flute").play()
 					clear_notes()
