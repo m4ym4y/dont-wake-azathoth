@@ -1,68 +1,17 @@
 # Ludum Dare 50
 
-## Brainstorming
+- [Ludum Dare page](https://ldjam.com/events/ludum-dare/50/dont-wake-azathoth)
+- [Itch.io page](https://m4ym4y.itch.io/dont-wake-azathoth)
 
-Theme: "Delay the Inevitable"
+Reality is nothing more than the dream of an alien god, and when that god awakens everything we know will cease.
 
-- increaing waves of enemies like vampire survivors
-- sorta like agar.io where you have to eat things, but you shrink over time
-- tower defense game where you can't kill enemies but have to divert them
-- game where you're retreating from enemies
-- * a game set in a dream where you need to stop the dreamer from waking up
-  - could be a sidescroller where you can fly, shoot fire, etc. but they take
-    away from belief, which needs to recover
-  - could be a top-down where you try to avoid looking at horrors
-- a game where you try to keep evil sleeping but every time you cast a spell
-  it wakes up the monsters a little more
-- auto catan where the goal is to keep the civ alive as long as possible
-- a game where you have to keep feeding a monster so that he doesn't escape
-  and wreak havoc
-- don't wake azathoth but it's a rhythm game
-  - in addition to the notes coming down, there are eldrich anomalies
-  - 
+In this game, you must play the music that keeps Azathoth slumbering, preventing the end of the world. Eventually he will awaken, but you must delay that as long as possible for the sake of our world!
 
-Idea: "Don't Wake Azathoth"
+Controls:
 
-It's a rhythm game where you are keeping azathoth asleep by playing him
-hypnotic tunes. There is a track on the screen that notes fall down and you
-need to hit them on time when they line up with your player.
-
-You also have an attack action when monsters come down. It can also be used
-to grab some powerups/upgrades. But there are also bad guys that will cause
-you damage if you attack them; they need to be ignored.
-
-Missing notes will cause Azathoth to gain wakefulness. Too many misses and he wakes
-up, causing reality itself to end.
-
-- Notes:
-  - These look like occult glyphs coming down the tracks
-  - each track corresponds to a key you hit
-  - some notes are longer and the key needs to be held down
-  - notes generally move at the same speed but some move faster if they're shot by enemies
-
-- Enemies:
-  - Little tentacle monsters
-  - Hellhounds
-  - Floating eyes that shoot notes down the track
-  - Evil elder gods that fly around and shoot notes erratically
-
-- Allies:
-  - Cultists in robes need to be avoided- if you hit them you lose points
-
-- Powerups:
-  - A flute will cause the wakefullness meter to go down
-  - A tome will cause your bar to expand, allowing you to hit notes more easily
-  - A sun will extinguish all the enemies onscreen
+- H, J, K, L will play notes
+- Space will kill monsters and grab powerups!
 
 # Attributions
 
 - Font: [Adventure, by Brian J Smith](http://www.pentacom.jp/pentacom/bitfontmaker2/gallery/?id=195)
-
-## TODO List after first day of working
-
-- Should have powerups and enemies to make it more interesting. Maybe the enemies could move around the track instead of requiring a special attack action. Or they could move around and still require the attack action.
-- Instead of having a health number we should have something like a hearts system. These could be Z's that go from green to red so that it's less distracting than looking at a number.
-- More things should be animated, like the cultists fingers, azathoth, etc. If it all goes in rhythm then it'd have a cute effect.
-- There should be a main menu, death screen, high score, etc.
-- Draw the title screen art
-- Export sounds as mp3 so they don't take up huge space
