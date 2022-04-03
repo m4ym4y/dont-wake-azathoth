@@ -35,6 +35,8 @@ var global_timer = 0
 var timer = 0
 var pitch_scale = 1.0
 
+var PlayerVars
+
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
@@ -42,6 +44,10 @@ var pitch_scale = 1.0
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	randomize()
+
+	PlayerVars = get_node("/root/PlayerVars")
+	PlayerVars.get_node("Music").stop()
+	$HighScoreMeter.text = str(PlayerVars.high_score)
 
 	yield(get_tree().create_timer(0.4), "timeout")
 	$NoteTimer.start()
@@ -89,15 +95,22 @@ func next_notes():
 func increment_combo():
 	if broke_combo:
 		combo_counter = 0
+		get_node("Sounds/perfect").pitch_scale = 1
 	elif got_combo:
 		combo_counter += 1
+		if combo_counter % 20 == 0 and get_node("Sounds/perfect").pitch_scale < 2.0:
+			get_node("Sounds/perfect").pitch_scale += 0.2
 	broke_combo = false
 	got_combo = false
 	$ComboMeter.text = str(combo_counter)
 
 func set_health(n):
 	health = n
-	$HealthBar.set_health(n)
+	if health <= 0:
+		PlayerVars.set_high_score(PlayerVars.score)
+		get_tree().change_scene("res://GameOver.tscn")
+	else:
+		$HealthBar.set_health(n)
 
 func apply_pitch_scale ():
 	$NoteTimer.wait_time = base_wait_time / pitch_scale
@@ -120,6 +133,10 @@ func spawn_powerup():
 	powerup.position = get_node(line).position
 	powerup.init(type)
 	add_child(powerup)
+
+func increment_score(bonus = 0):
+	PlayerVars.score += 1 + bonus
+	$ScoreMeter.text = str(PlayerVars.score)
 
 func _on_NoteTimer_timeout():
 	global_timer += 1
@@ -172,6 +189,7 @@ func clear_notes():
 			continue
 		else:
 			note.get_node("AnimatedSprite").play("break")
+			increment_score(combo_counter / 10)
 
 func _input(event):
 	if event.is_action_pressed("attack"):
@@ -183,15 +201,19 @@ func _input(event):
 			if in_target(attackable, note_step) and attackable.animation != "break":
 				attackable.play("break")
 				if attackable.type == "z":
+					get_node("Sounds/z").play()
 					set_health(health + 1)
 				elif attackable.type == "clock":
-					var old_pitch_scale = pitch_scale
-					pitch_scale = 0.5
-					apply_pitch_scale()
-					yield(get_tree().create_timer(10), "timeout")
-					pitch_scale = old_pitch_scale
-					apply_pitch_scale()
+					get_node("Sounds/clock").play()
+					if pitch_scale > 0.5:
+						var old_pitch_scale = pitch_scale
+						pitch_scale = 0.5
+						apply_pitch_scale()
+						yield(get_tree().create_timer(10), "timeout")
+						pitch_scale = old_pitch_scale
+						apply_pitch_scale()
 				elif attackable.type == "flute":
+					get_node("Sounds/flute").play()
 					clear_notes()
 
 	for line in locations:
@@ -213,11 +235,14 @@ func _input(event):
 					near_hit = note
 
 			if found_note:
+				get_node("Sounds/perfect").play()
 				display_indicator("perfect", line)
 				got_combo = true
+				increment_score(combo_counter / 10)
 			elif near_hit != null:
 				near_hit.get_node("AnimatedSprite").play("break")
 				display_indicator("hit", line)
+				increment_score()
 			else:
 				broke_combo = true
 				display_indicator("miss", line)

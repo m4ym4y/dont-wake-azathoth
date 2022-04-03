@@ -12,11 +12,6 @@ animations = [ {
 "name": "z",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 2 ) ],
-"loop": true,
-"name": "clock",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 3 ) ],
 "loop": true,
 "name": "flute",
@@ -26,9 +21,18 @@ animations = [ {
 "loop": true,
 "name": "break",
 "speed": 5.0
+}, {
+"frames": [ ExtResource( 2 ) ],
+"loop": true,
+"name": "clock",
+"speed": 5.0
 } ]
 
 [node name="PowerUp" type="AnimatedSprite"]
 frames = SubResource( 1 )
 animation = "break"
 script = ExtResource( 4 )
+
+[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
+
+[connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]

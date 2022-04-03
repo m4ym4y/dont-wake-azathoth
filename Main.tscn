@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://assets/gamehud.png" type="Texture" id=1]
 [ext_resource path="res://MusicNote.tscn" type="PackedScene" id=2]
@@ -18,6 +18,10 @@
 [ext_resource path="res://PowerUp.tscn" type="PackedScene" id=16]
 [ext_resource path="res://assets/cultist-2.png" type="Texture" id=17]
 [ext_resource path="res://assets/azathoth-2.png" type="Texture" id=18]
+[ext_resource path="res://assets/sound/z.wav" type="AudioStream" id=19]
+[ext_resource path="res://assets/sound/perfect.wav" type="AudioStream" id=20]
+[ext_resource path="res://assets/sound/clock.wav" type="AudioStream" id=21]
+[ext_resource path="res://assets/sound/flute.wav" type="AudioStream" id=22]
 
 [sub_resource type="SpriteFrames" id=2]
 animations = [ {
@@ -107,13 +111,53 @@ stream = ExtResource( 9 )
 [node name="lline" type="AudioStreamPlayer" parent="Sounds"]
 stream = ExtResource( 10 )
 
+[node name="perfect" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource( 20 )
+volume_db = -5.0
+
+[node name="z" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource( 19 )
+
+[node name="clock" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource( 21 )
+
+[node name="flute" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource( 22 )
+
+[node name="ScoreLabel" type="Label" parent="."]
+margin_left = 508.0
+margin_top = 320.0
+margin_right = 555.0
+margin_bottom = 336.0
+rect_pivot_offset = Vector2( 24, 16 )
+custom_fonts/font = SubResource( 1 )
+text = "Score"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="ComboLabel" type="Label" parent="."]
 margin_left = 510.0
 margin_top = 391.0
 margin_right = 557.0
 margin_bottom = 407.0
+rect_pivot_offset = Vector2( 24, 16 )
 custom_fonts/font = SubResource( 1 )
 text = "Combo"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScoreMeter" type="Label" parent="."]
+margin_left = 509.0
+margin_top = 340.0
+margin_right = 549.0
+margin_bottom = 356.0
+rect_pivot_offset = Vector2( 11, 8 )
+custom_fonts/font = SubResource( 1 )
+text = "0"
 valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
@@ -142,6 +186,32 @@ position = Vector2( 156, 135 )
 [node name="Attack" parent="." instance=ExtResource( 15 )]
 position = Vector2( 413, 417 )
 z_index = 5
+
+[node name="HighScoreLabel" type="Label" parent="."]
+margin_left = 508.0
+margin_top = 260.0
+margin_right = 585.0
+margin_bottom = 276.0
+rect_pivot_offset = Vector2( 24, 16 )
+custom_fonts/font = SubResource( 1 )
+text = "High Score"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HighScoreMeter" type="Label" parent="."]
+margin_left = 509.0
+margin_top = 281.0
+margin_right = 549.0
+margin_bottom = 297.0
+rect_pivot_offset = Vector2( 11, 8 )
+custom_fonts/font = SubResource( 1 )
+text = "0"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [connection signal="timeout" from="NoteTimer" to="." method="_on_NoteTimer_timeout"]
 [connection signal="finished" from="Music" to="." method="_on_Music_finished"]
