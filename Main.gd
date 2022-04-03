@@ -3,6 +3,7 @@ extends Node2D
 export (PackedScene) var note_scene
 export (PackedScene) var indicator_scene
 export (PackedScene) var powerup_scene
+export (PackedScene) var monster_scene
 
 var powerups = [ "clock", "flute", "z" ]
 var locations = [ "hline", "jline", "kline", "lline" ]
@@ -57,7 +58,10 @@ func random_note():
 	return locations[randi() % locations.size()]
 
 func set_new_state():
-	if randi() % 10 == 0:
+	if randi() % 3 == 0:
+		state_counter = 1
+		state = "monster"
+	elif randi() % 10 == 0:
 		state_counter = 1
 		state = "powerup"
 	else:
@@ -91,6 +95,9 @@ func next_notes():
 	elif state == "powerup":
 		spawn_powerup()
 		return []
+	elif state == "monster":
+		spawn_monster()
+		return []
 
 func increment_combo():
 	if broke_combo:
@@ -123,8 +130,19 @@ func _on_Music_finished():
 		apply_pitch_scale()
 	$Music.play()
 
+func spawn_monster():
+	var line = random_note()
+	var monster = monster_scene.instance()
+
+	monster.add_to_group("notes")
+	monster.add_to_group("attack")
+	monster.add_to_group("monster")
+	monster.position = get_node(line).position
+	add_child(monster)
+
 func spawn_powerup():
 	var type = powerups[randi() % powerups.size()]
+
 	var line = random_note()
 	var powerup = powerup_scene.instance()
 
@@ -171,7 +189,7 @@ func advance_notes():
 	var notes = get_tree().get_nodes_in_group("notes")
 	for note in notes:
 		note.position.y = note.position.y + note_step
-		if note.is_in_group("attack"):
+		if note.is_in_group("attack") and not note.is_in_group("monster"):
 			continue
 		elif note.position.y > target_end and note.get_node("AnimatedSprite").animation != "break":
 			note.get_node("AnimatedSprite").play("break")
@@ -198,8 +216,9 @@ func _input(event):
 		var attackables = get_tree().get_nodes_in_group("attack")
 		for attackable in attackables:
 			# TODO: play sounds
-			if in_target(attackable, note_step) and attackable.animation != "break":
-				attackable.play("break")
+			if in_target(attackable, note_step) and attackable.get_node("AnimatedSprite").animation != "break":
+				attackable.get_node("AnimatedSprite").play("break")
+				attackable.get_node("CPUParticles2D").emitting = true
 				if attackable.type == "z":
 					get_node("Sounds/z").play()
 					set_health(health + 1)
@@ -215,6 +234,9 @@ func _input(event):
 				elif attackable.type == "flute":
 					get_node("Sounds/flute").play()
 					clear_notes()
+				elif attackable.type == "monster":
+					increment_score()
+					get_node("Sounds/monster").play()
 
 	for line in locations:
 		if event.is_action_pressed(line):

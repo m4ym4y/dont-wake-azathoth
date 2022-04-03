@@ -1,4 +1,4 @@
-extends AnimatedSprite
+extends Node2D
 
 
 # Declare member variables here. Examples:
@@ -12,7 +12,7 @@ func _ready():
 
 func init(_type):
 	type = _type
-	animation = _type
+	$AnimatedSprite.animation = _type
 
 func _on_VisibilityNotifier2D_screen_exited():
 	queue_free()

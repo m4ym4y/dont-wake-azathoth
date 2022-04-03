@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://assets/z-powerup.png" type="Texture" id=1]
 [ext_resource path="res://assets/clock-powerup.png" type="Texture" id=2]
 [ext_resource path="res://assets/flute-powerup.png" type="Texture" id=3]
 [ext_resource path="res://PowerUp.gd" type="Script" id=4]
+[ext_resource path="res://assets/particle.png" type="Texture" id=5]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -28,11 +29,21 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[node name="PowerUp" type="AnimatedSprite"]
-frames = SubResource( 1 )
-animation = "break"
+[node name="PowerUp" type="Node2D"]
 script = ExtResource( 4 )
 
 [node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
 
-[connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+frames = SubResource( 1 )
+animation = "flute"
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+emitting = false
+amount = 32
+lifetime = 0.25
+one_shot = true
+texture = ExtResource( 5 )
+spread = 180.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 200.0

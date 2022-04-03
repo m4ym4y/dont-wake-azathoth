@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://assets/gamehud.png" type="Texture" id=1]
 [ext_resource path="res://MusicNote.tscn" type="PackedScene" id=2]
@@ -22,6 +22,8 @@
 [ext_resource path="res://assets/sound/perfect.wav" type="AudioStream" id=20]
 [ext_resource path="res://assets/sound/clock.wav" type="AudioStream" id=21]
 [ext_resource path="res://assets/sound/flute.wav" type="AudioStream" id=22]
+[ext_resource path="res://Monster.tscn" type="PackedScene" id=23]
+[ext_resource path="res://assets/sound/monster.wav" type="AudioStream" id=24]
 
 [sub_resource type="SpriteFrames" id=2]
 animations = [ {
@@ -57,6 +59,7 @@ script = ExtResource( 3 )
 note_scene = ExtResource( 2 )
 indicator_scene = ExtResource( 5 )
 powerup_scene = ExtResource( 16 )
+monster_scene = ExtResource( 23 )
 
 [node name="ColorRect" type="ColorRect" parent="."]
 margin_right = 640.0
@@ -123,6 +126,9 @@ stream = ExtResource( 21 )
 
 [node name="flute" type="AudioStreamPlayer" parent="Sounds"]
 stream = ExtResource( 22 )
+
+[node name="monster" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource( 24 )
 
 [node name="ScoreLabel" type="Label" parent="."]
 margin_left = 508.0
