@@ -240,6 +240,7 @@ func _input(event):
 				got_combo = true
 				increment_score(combo_counter / 10)
 			elif near_hit != null:
+				broke_combo = true
 				near_hit.get_node("AnimatedSprite").play("break")
 				display_indicator("hit", line)
 				increment_score()
